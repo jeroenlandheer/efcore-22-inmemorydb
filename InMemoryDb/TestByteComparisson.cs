@@ -21,7 +21,7 @@ namespace InMemoryDb
             Assert.IsTrue(randomBytes.SequenceEqual(someIdBytes));
 
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
-            dbContextOptionsBuilder.UseInMemoryDatabase("Test");
+            dbContextOptionsBuilder.UseInMemoryDatabase("Test_UsingEquals");
 
             using (var context = new DatabaseContext(dbContextOptionsBuilder.Options))
             {
@@ -50,7 +50,7 @@ namespace InMemoryDb
             Assert.IsTrue(randomBytes.SequenceEqual(someIdBytes));
 
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
-            dbContextOptionsBuilder.UseInMemoryDatabase("Test");
+            dbContextOptionsBuilder.UseInMemoryDatabase("Test_UsingSequenceEquals");
 
             // Add randomBytes
             using (var context = new DatabaseContext(dbContextOptionsBuilder.Options))
