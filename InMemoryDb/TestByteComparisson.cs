@@ -23,16 +23,25 @@ namespace InMemoryDb
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
             dbContextOptionsBuilder.UseInMemoryDatabase("Test_UsingEquals");
 
+            // Add randomBytes
             using (var context = new DatabaseContext(dbContextOptionsBuilder.Options))
             {
                 context.Tables.Add(new Table() { Field = randomBytes });
                 context.SaveChanges();
             }
 
+            // Query randomBytes
+            using (var context = new DatabaseContext(dbContextOptionsBuilder.Options))
+            {
+                var item = context.Tables.SingleOrDefault(t => t.Field == randomBytes);
+                Assert.IsNotNull(item, "Equals(randomBytes) == failed");
+            }
+
+            // Query someIdBytes
             using (var context = new DatabaseContext(dbContextOptionsBuilder.Options))
             {
                 var item = context.Tables.SingleOrDefault(t => t.Field == someIdBytes);
-                Assert.IsNotNull(item, "Equals == failed");
+                Assert.IsNotNull(item, "Equals(someIdBytes) == failed");
             }
 
         }
@@ -59,11 +68,18 @@ namespace InMemoryDb
                 context.SaveChanges();
             }
 
+            // Query randomBytes
+            using (var context = new DatabaseContext(dbContextOptionsBuilder.Options))
+            {
+                var item = context.Tables.SingleOrDefault(t => t.Field.SequenceEqual(randomBytes));
+                Assert.IsNotNull(item, "SequenceEqual(randomBytes) failed");
+            }
+
             // Query someIdBytes
             using (var context = new DatabaseContext(dbContextOptionsBuilder.Options))
             {
                 var item = context.Tables.SingleOrDefault(t => t.Field.SequenceEqual(someIdBytes));
-                Assert.IsNotNull(item, "SequenceEqual failed");
+                Assert.IsNotNull(item, "SequenceEqual(someIdBytes) failed");
             }
 
         }
